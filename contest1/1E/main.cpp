@@ -2,10 +2,8 @@
 #include <iostream>
 #include <string>
 
-long long brain[200000];
-long long queue[200000];
-
-void Enqueue(int* bfirst, int* qfirst, const int* qlast) {
+void Enqueue(long long*& brain, long long*& queue, int* bfirst, int* qfirst,
+             const int* qlast) {
   long long n;
   std::cin >> n;
   brain[(*bfirst)] = n;
@@ -24,7 +22,7 @@ void Enqueue(int* bfirst, int* qfirst, const int* qlast) {
   }
 }
 
-void Front(const int* bfirst, const int* blast) {
+void Front(long long*& brain, const int* bfirst, const int* blast) {
   if (*bfirst - *blast == 0) {
     std::cout << "error" << '\n';
   } else {
@@ -32,7 +30,8 @@ void Front(const int* bfirst, const int* blast) {
   }
 }
 
-void Dequeue(const int* bfirst, int* blast, int* qlast) {
+void Dequeue(long long*& brain, long long*& queue, const int* bfirst,
+             int* blast, int* qlast) {
   if (*bfirst - *blast == 0) {
     std::cout << "error" << '\n';
   } else {
@@ -50,7 +49,8 @@ void Size(const int* bfirst, const int* blast) {
   std::cout << *bfirst - *blast << '\n';
 }
 
-void Clear(int* bfirst, int* blast, int* qfirst, int* qlast) {
+void Clear(long long*& brain, long long*& queue, int* bfirst, int* blast,
+           int* qfirst, int* qlast) {
   for (int i = *blast; i < *bfirst; i++) {
     brain[i] = 0;
   }
@@ -64,7 +64,8 @@ void Clear(int* bfirst, int* blast, int* qfirst, int* qlast) {
   std::cout << "ok" << '\n';
 }
 
-void Min(const int* bfirst, const int* blast, const int* qlast) {
+void Min(long long*& queue, const int* bfirst, const int* blast,
+         const int* qlast) {
   if (*bfirst - *blast == 0) {
     std::cout << "error" << '\n';
   } else {
@@ -76,28 +77,30 @@ int main() {
   int m, bfirst = 0, blast = 0, qfirst = 0, qlast = 0;
   std::string s;
   std::cin >> m;
+  auto* brain = new long long[m];
+  auto* queue = new long long[m];
   for (int i = 0; i < m; i++) {
     std::cin >> s;
     switch (s[0]) {
       case ('e'):
-        Enqueue(&bfirst, &qfirst, &qlast);
+        Enqueue(brain, queue, &bfirst, &qfirst, &qlast);
         break;
       case ('d'):
-        Dequeue(&bfirst, &blast, &qlast);
+        Dequeue(brain, queue, &bfirst, &blast, &qlast);
         break;
       case ('f'):
-        Front(&bfirst, &blast);
+        Front(brain, &bfirst, &blast);
         break;
       case ('s'):
         Size(&bfirst, &blast);
         break;
       case ('c'):
-        Clear(&bfirst, &blast, &qfirst, &qlast);
+        Clear(brain, queue, &bfirst, &blast, &qfirst, &qlast);
         break;
       case ('m'):
-        Min(&bfirst, &blast, &qlast);
-        break;
+        Min(queue, &bfirst, &blast, &qlast);
     }
   }
-  return 0;
+  delete[] brain;
+  delete[] queue;
 }
