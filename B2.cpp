@@ -19,7 +19,7 @@ int Partition(int* a, int left, int right) {
   return j;
 }
 
-void Find(int* a, int left, int right, int k) {
+int Find(int* a, int left, int right, int k) {
   int cur;
   while (left < right) {
     cur = Partition(a, left, right);
@@ -30,20 +30,21 @@ void Find(int* a, int left, int right, int k) {
     }
   }
 
-  std::cout << a[k] << '\n';
+  return a[k];
 }
 
 int main() {
+  const int kX = 123, kY = 45, kZ = 10004321;
   int n, k;
   std::cin >> n;
   auto* a = new int[n];
   std::cin >> k >> a[0] >> a[1];
 
   for (int i = 2; i < n; i++) {
-    a[i] = (123 * a[i - 1] + 45 * a[i - 2]) % 10004321;
+    a[i] = (kX * a[i - 1] + kY * a[i - 2]) % kZ;
   }
 
-  Find(a, 0, n - 1, k - 1);
+  std::cout << Find(a, 0, n - 1, k - 1) << '\n';
   delete[] a;
   return 0;
 }
