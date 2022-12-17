@@ -3,12 +3,13 @@
 #include <vector>
 
 void LSD(std::vector<long long>& arr, int n, int number) {
+  const int kN = 10;
   int c = 0;
   long long x;
-  std::vector<std::vector<long long>> arr_numbers(10);
+  std::vector<std::vector<long long>> arr_numbers(kN);
   for (int i = 0; i < n; i++) {
-    x = (long long)(arr[i] / (pow(10, number - 1)));
-    arr_numbers[x % 10].push_back(arr[i]);
+    x = static_cast<long long>(arr[i] / (pow(kN, number - 1)));
+    arr_numbers[x % kN].push_back(arr[i]);
   }
   for (int i = 0; i < 10; i++) {
     for (int k = 0; k < int(arr_numbers[i].size()); k++) {
