@@ -11,7 +11,7 @@ struct Tree {
   int value_ = 0;
 
  public:
-  Tree(std::vector<int> arr_sup, int n) {
+  Tree(std::vector<int>& arr_sup, int n) {
     height_ = 0;
     int size, tmp;
     while (int(pow(2, height_)) < n) {
@@ -61,7 +61,16 @@ struct Tree {
     }
   }
 
-  friend int main();
+  void ReAnsVal(int j) {
+    ans_ = int(arr_.size());
+    value_ = j;
+  }
+
+  int Height() { return height_; }
+
+  int Ans() { return ans_; }
+
+  int Siz() { return int(arr_.size()); }
 };
 
 int main() {
@@ -81,15 +90,14 @@ int main() {
   for (int p = 0; p < m; p++) {
     std::cin >> tmp >> i >> j;
     if (tmp == 0) {
-      tree.Set(int(pow(2, tree.height_)) + i - 2, j);
+      tree.Set(int(pow(2, tree.Height())) + i - 2, j);
     } else {
-      tree.ans_ = int(tree.arr_.size());
-      tree.value_ = j;
-      tree.Get(0, i - 1, n, 0, int(pow(2, tree.height_)));
-      if (tree.ans_ == int(tree.arr_.size())) {
+      tree.ReAnsVal(j);
+      tree.Get(0, i - 1, n, 0, int(pow(2, tree.Height())));
+      if (tree.Ans() == int(tree.Siz())) {
         std::cout << "-1" << '\n';
       } else {
-        std::cout << tree.ans_ - int(pow(2, tree.height_)) + 2 << '\n';
+        std::cout << tree.Ans() - int(pow(2, tree.Height())) + 2 << '\n';
       }
     }
   }
