@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <iostream>
 #include <vector>
 
@@ -41,19 +40,9 @@ int Fixed(int first_number, int mask, int n) {
   return (Pow2(n) - mask - 1);
 }
 
-int main() {
-  std::ios::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-  int m, n, prev_mask;
-  long long ans = 0;
-  std::cin >> n >> m;
-  std::vector<std::vector<char>> cages(m, std::vector<char>(n));
+void Solve(std::vector<std::vector<char>>& cages, int n, int m) {
+  long long ans = 0, prev_mask;
   std::vector<std::vector<long long>> dp(m, std::vector<long long>(Pow2(n), 0));
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      std::cin >> cages[j][i];
-    }
-  }
   for (int mask = 0; mask < Pow2(n); mask++) {
     dp[0][mask] = (IsFit(cages[0], mask)) ? 1 : 0;
   }
@@ -62,7 +51,7 @@ int main() {
       ans += dp[0][mask];
     }
     std::cout << ans;
-    return 0;
+    return;
   }
   for (int i = 1; i < m; i++) {
     for (int mask = 0; mask < Pow2(n); mask++) {
@@ -81,4 +70,18 @@ int main() {
     ans %= 1000000007;
   }
   std::cout << ans;
+}
+
+int main() {
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int n, m;
+  std::cin >> n >> m;
+  std::vector<std::vector<char>> cages(m, std::vector<char>(n));
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      std::cin >> cages[j][i];
+    }
+  }
+  Solve(cages, n, m);
 }
