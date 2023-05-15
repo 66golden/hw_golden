@@ -1,18 +1,14 @@
 #include <iostream>
 #include <vector>
 
-int main() {
-  std::ios::sync_with_stdio(false);
-  std::cin.tie(nullptr);
-  int n, k;
-  std::cin >> n >> k;
+void Solve(int n, int k) {
   if (n == 1) {
     std::cout << 0 << '\n';
-    return 0;
+    return;
   }
   if (k == 0) {
     std::cout << -1 << '\n';
-    return 0;
+    return;
   }
   std::vector<std::vector<int>> dp(k + 1);
   dp[0] = std::vector<int>(n + 1, 0);
@@ -35,4 +31,12 @@ int main() {
     ++x;
   }
   std::cout << x << '\n';
+}
+
+int main() {
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int n, k;
+  std::cin >> n >> k;
+  Solve(n, k);
 }
