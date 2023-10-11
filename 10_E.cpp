@@ -45,7 +45,7 @@ class Trie {
   void Dfs(int cur_vert, int max_height, int fake_size) {
     visited_[cur_vert] = true;
     if (trie_[cur_vert].term) {
-      trie_[cur_vert].subtree_term += 1;
+      ++trie_[cur_vert].subtree_term;
     }
     for (int i = 0; i < kNodeSize; i++) {
       int next_vert = trie_[cur_vert].to[i];
@@ -57,7 +57,7 @@ class Trie {
       }
     }
     if (trie_[cur_vert].subtree_term >= fake_size) {
-      ans_by_heights_[trie_[cur_vert].height] += 1;
+      ++ans_by_heights_[trie_[cur_vert].height];
     }
   }
 
@@ -71,7 +71,11 @@ class Trie {
   }
 };
 
-std::string MakeGood(const std::string& str) {
+std::string MakeGood(
+    const std::string&
+        str) {  //функция, которая строку a_1 a_2 ... a_n переводит в строку a_1
+                //a_n a_2 a_{n-1} ... a_n a_1, длины вдвое большей, чем у
+                //изначальной строки
   std::string ans;
   int len = static_cast<int>(str.length());
   ans.reserve(len * 2);
