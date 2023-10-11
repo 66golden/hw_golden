@@ -16,36 +16,38 @@ bool IsPalindrome(const std::string& str, int start, int end) {
 
 std::vector<std::pair<int, int>> FindPalindrome(
     const std::vector<std::string>& words) {
-  std::unordered_map<std::string, int> map;
+  std::unordered_map<std::string, int> reversed_string_indices;
   std::vector<std::pair<int, int>> result;
-  int nn = int(words.size());
+  int words_size = static_cast<int>(words.size());
 
-  for (int ii = 0; ii < nn; ++ii) {
-    std::string tmp = words[ii];
+  for (int i = 0; i < words_size; ++i) {
+    std::string tmp = words[i];
     reverse(tmp.begin(), tmp.end());
-    map[tmp] = ii;
+    reversed_string_indices[tmp] = i;
   }
 
-  if (map.count("") != 0u) {
-    for (int ii = 0; ii < nn; ++ii) {
-      if (ii != map[""] &&
-          IsPalindrome(words[ii], 0, int(words[ii].length()) - 1)) {
-        result.push_back({map[""], ii});
+  if (reversed_string_indices.count("") != 0u) {
+    for (int i = 0; i < words_size; ++i) {
+      if (i != reversed_string_indices[""] &&
+          IsPalindrome(words[i], 0, static_cast<int>(words[i].length()) - 1)) {
+        result.push_back({reversed_string_indices[""], i});
       }
     }
   }
 
-  for (int ii = 0; ii < nn; ++ii) {
-    for (int jj = 0; jj < int(words[ii].length()); ++jj) {
-      std::string left = words[ii].substr(0, jj);
-      std::string right = words[ii].substr(jj);
-      if (map.count(left) != 0u && map[left] != ii &&
-          IsPalindrome(right, 0, int(right.length()) - 1)) {
-        result.push_back({ii, map[left]});
+  for (int i = 0; i < words_size; ++i) {
+    for (int j = 0; j < static_cast<int>(words[i].length()); ++j) {
+      std::string left = words[i].substr(0, j);
+      std::string right = words[i].substr(j);
+      if (reversed_string_indices.count(left) != 0u &&
+          reversed_string_indices[left] != i &&
+          IsPalindrome(right, 0, static_cast<int>(right.length()) - 1)) {
+        result.push_back({i, reversed_string_indices[left]});
       }
-      if (map.count(right) != 0u && map[right] != ii &&
-          IsPalindrome(left, 0, int(left.length()) - 1)) {
-        result.push_back({map[right], ii});
+      if (reversed_string_indices.count(right) != 0u &&
+          reversed_string_indices[right] != i &&
+          IsPalindrome(left, 0, static_cast<int>(left.length()) - 1)) {
+        result.push_back({reversed_string_indices[right], i});
       }
     }
   }
@@ -54,11 +56,11 @@ std::vector<std::pair<int, int>> FindPalindrome(
 }
 
 int main() {
-  int nn;
-  std::cin >> nn;
+  int num_of_words;
+  std::cin >> num_of_words;
   std::vector<std::string> words;
   std::string tmp;
-  for (int ii = 0; ii < nn; ++ii) {
+  for (int i = 0; i < num_of_words; ++i) {
     std::cin >> tmp;
     words.push_back(tmp);
   }
