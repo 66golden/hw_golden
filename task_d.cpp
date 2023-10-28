@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 
+
 std::vector<int> CreateSuffixArray(std::string& str) {
   int str_length = static_cast<int>(str.length());
   std::vector<int> suffix_array(str_length);
