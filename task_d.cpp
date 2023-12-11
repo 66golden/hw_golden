@@ -4,18 +4,18 @@
 
 const int kSqrtOfMax = 65536;
 
-long long BinPow(long long xx, long long exp, long long mod) {
+long long BinPow(long long base, long long exp, long long mod) {
   long long result = 1;
-  if (xx == 0) {
+  if (base == 0) {
     return 0;
   }
-  xx %= mod;
+  base %= mod;
   while (exp > 0) {
     if (exp % 2 == 1) {
-      result = result * xx % mod;
+      result = result * base % mod;
     }
     exp >>= 1;
-    xx = xx * xx % mod;
+    base = base * base % mod;
   }
   return result;
 }
@@ -44,7 +44,7 @@ int GetOrd(long long base, long long mod) {
   return -1;
 }
 
-void Solve(long long mod, long long base, long long value) {
+void FindDiscreteLogarithm(long long mod, long long base, long long value) {
   std::unordered_map<int, int> sqr_map;
   long long step = BinPow(base, kSqrtOfMax, mod);
   long long accum = 1;
@@ -76,7 +76,7 @@ int main() {
     if (mod == 1) {
       std::cout << "0" << '\n';
     } else {
-      Solve(mod, base, value);
+      FindDiscreteLogarithm(mod, base, value);
     }
   }
 }
